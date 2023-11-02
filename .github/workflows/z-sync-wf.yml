@@ -1,4 +1,4 @@
-name: run py-merge
+name: run z-sync
 
 on:
   push:
@@ -9,6 +9,10 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+      - name: Set up Git
+        run: |
+          git config user.email "actions@github.com"
+          git config user.name "GitHub Actions"
 
       - name: checkout repo content
         uses: actions/checkout@v2 # checkout the repository content
