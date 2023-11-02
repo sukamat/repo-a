@@ -19,9 +19,11 @@ jobs:
 
       - name: Set up Git
         run: |
-          git config user.email "sukamat@adobe.com"
+          git config user.email "actions@github.com"
           git config user.name "GitHub Actions"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_PAT_ALL }}
 
       - name: run sync.py
-        run: |          
-          python .github/scripts/z-sync.py        
+        run: |
+          python .github/scripts/z-sync.py
