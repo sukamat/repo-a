@@ -63,4 +63,4 @@ jobs:
           echo "git push origin main"
           git push origin main
         env:
-          GITHUB_TOKEN: ${{ env.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ steps.generate_token.outputs.token }}
