@@ -50,7 +50,7 @@ jobs:
           echo "git remote -v"
           git remote -v
           echo "git remote set-url for repo-b"
-          git remote set-url origin https://$GITHUB_TOKEN@github.com/sukamat/repo-b.git
+          git remote set-url origin https://x-access-token:$GITHUB_TOKEN@github.com/sukamat/repo-b.git
           echo "git remote -v"
           git remote -v
           echo "git add ."
