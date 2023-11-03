@@ -1,7 +1,9 @@
 name: run z-sync
 
 on:
-  workflow_dispatch:         
+  workflow_dispatch:
+    branches:
+      - main      
 
 jobs:
   build:
