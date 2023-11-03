@@ -1,6 +1,0 @@
-group:
-  repos: |
-    sukamat/repo-b
-  files:
-    - source: README.md
-      dest: README.md
