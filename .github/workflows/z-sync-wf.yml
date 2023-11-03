@@ -19,8 +19,8 @@ jobs:
 
       - name: Set up Git
         run: |
-          git config user.email "sukamat@adobe.com"
-          git config user.name "Sunil Kamat"
+          git config --global user.email "sukamat@adobe.com"
+          git config --global user.name "Sunil Kamat"
       #     git config --global url.https://$GITHUB_TOKEN@github.com/.insteadOf https://github.com/          
       #     git remote set-url repob https://$GITHUB_TOKEN@github.com/sukamat/repo-b.git
         env:
@@ -45,14 +45,14 @@ jobs:
           rsync -av --exclude='fstab.yaml' --exclude='.github' --exclude='.git' --exclude='.idea' ./ repo-b/
         if: always()
 
-      # - name: Commit and Push Changes
-      #   run: |
-      #     cd repo-b
-      #     git status
-      #     git add .
-      #     git commit -m "Syncing repo-a to repo-b"
-      #     git push origin main
-      #   if: always()
+      - name: Commit and Push Changes
+        run: |
+          cd repo-b
+          git status
+          git add .
+          git commit -m "Syncing repo-a to repo-b"
+          git push origin main
+        if: always()
 
 #      - name: run sync.py
 #        run: |
