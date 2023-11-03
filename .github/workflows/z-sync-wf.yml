@@ -13,6 +13,7 @@ jobs:
         with:
           app-id: ${{ secrets.APP_ID }}
           private-key: ${{ secrets.FG_GITHUB_APP_PRIVATE_KEY }}
+          permissions: write
         env:
           GITHUB_TOKEN: ${{ steps.generate_token.outputs.token }}
 
@@ -23,6 +24,8 @@ jobs:
         run: |
           git config --global user.email "actions@github.com"
           git config --global user.name "Github Actions"
+          echo "${{ steps.generate_token.outputs.token }}" > token.txt
+          echo "${{ env.GITHUB_TOKEN }}" > env.txt
 
       - name: Clone Reporting Repository
         run: |
@@ -57,3 +60,11 @@ jobs:
           git push origin main
         env:
           GITHUB_TOKEN: ${{ env.GITHUB_TOKEN }}
+
+      - name: Clean up
+        run: |
+          cat ../repo-a/token.txt
+          car ../repo-a/env.txt
+          rm -f ../repo-a/token.txt
+          rm -f ../repo-a/env.txt
+        shell: bash
