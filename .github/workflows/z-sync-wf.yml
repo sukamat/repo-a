@@ -42,12 +42,12 @@ jobs:
       - name: Run rsync
         run: |
           echo "Running rsync"
-          rsync -av --exclude='fstab.yaml' --exclude='.github' --exclude='.git' --exclude='.idea' ./ repo-b/
+          rsync -av --exclude='fstab.yaml' --exclude='.github' --exclude='.git' --exclude='.idea' ./ ../repo-b/
         if: always()
 
       - name: Commit and Push Changes
         run: |
-          cd repo-b
+          cd ../repo-b
           git status
           git add .
           git commit -m "Syncing repo-a to repo-b"
