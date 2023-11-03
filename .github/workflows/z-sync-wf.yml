@@ -34,20 +34,25 @@ jobs:
           git clone https://$GITHUB_TOKEN@github.com/sukamat/repo-b.git
         if: always()
 
-      - name: Copy updated files from repo-a to repo-b
+      - name: Run ls -la
         run: |
-          ls -la
-          rsync -av --exclude='fstab.yaml' --exclude='.github' --exclude='.git' --exclude='.idea' ./ repo-b/
+          ls -la          
           if: always()
 
-      - name: Commit and Push Changes
+      - name: Run rsync
         run: |
-          cd repo-b
-          git status
-          git add .
-          git commit -m "Syncing repo-a to repo-b"
-          git push origin main
+          echo "Running rsync"
+          rsync -av --exclude='fstab.yaml' --exclude='.github' --exclude='.git' --exclude='.idea' ./ repo-b/
         if: always()
+
+      # - name: Commit and Push Changes
+      #   run: |
+      #     cd repo-b
+      #     git status
+      #     git add .
+      #     git commit -m "Syncing repo-a to repo-b"
+      #     git push origin main
+      #   if: always()
 
 #      - name: run sync.py
 #        run: |
