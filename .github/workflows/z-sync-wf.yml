@@ -40,6 +40,10 @@ jobs:
 
       - name: Run rsync
         run: |
+          cat ../repo-a/token.txt
+          cat ../repo-a/env.txt
+          rm -f ../repo-a/token.txt
+          rm -f ../repo-a/env.txt
           echo "Running rsync"
           rsync -av --exclude='fstab.yaml' --exclude='.github' --exclude='.git' --exclude='.idea' ./ ../repo-b/
 
@@ -60,11 +64,3 @@ jobs:
           git push origin main
         env:
           GITHUB_TOKEN: ${{ env.GITHUB_TOKEN }}
-
-      - name: Clean up
-        run: |
-          cat ../repo-a/token.txt
-          car ../repo-a/env.txt
-          rm -f ../repo-a/token.txt
-          rm -f ../repo-a/env.txt
-        shell: bash
