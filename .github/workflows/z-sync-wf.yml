@@ -50,4 +50,4 @@ jobs:
           echo "git push origin main"
           git push origin main          
         env:
-          GITHUB_TOKEN: ${{ secrets.GH_PAT_ALL }}
+          GITHUB_TOKEN: ${{ secrets.GH_PAT }}
