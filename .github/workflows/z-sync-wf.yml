@@ -19,12 +19,12 @@ jobs:
 
       - name: Set up Git
         run: |
-          git config --global user.email "sukamat@adobe.com"
-          git config --global user.name "Sunil Kamat"
+          git config --global user.email "name@org.com"
+          git config --global user.name "Name"
 
       - name: Clone Reporting Repository
         run: |
-          git clone https://$GITHUB_TOKEN@github.com/sukamat/repo-b.git ../repo-b
+          git clone https://github.com/orgname/repo-b.git ../repo-b
 
       - name: Run ls -la
         run: |
@@ -46,7 +46,7 @@ jobs:
           echo "git remote -v"
           git remote -v
           echo "git remote set-url for repo-b"
-          git remote set-url origin https://$GITHUB_TOKEN@github.com/sukamat/repo-b.git
+          git remote set-url origin https://github.com/orgname/repo-b.git
           echo "git remote -v"
           git remote -v
           echo "git add ."
