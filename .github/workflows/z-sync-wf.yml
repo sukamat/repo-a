@@ -24,7 +24,7 @@ jobs:
 
       - name: Clone Reporting Repository
         run: |
-          git clone https://github.com/orgname/repo-b.git ../repo-b
+          git clone https://x-access-token:$GITHUB_TOKEN@github.com/orgname/repo-b.git ../repo-b
         env:
           GITHUB_TOKEN: ${{ steps.generate_token.outputs.token }}
 
