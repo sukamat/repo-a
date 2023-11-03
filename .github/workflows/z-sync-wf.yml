@@ -21,8 +21,8 @@ jobs:
 
       - name: Set up Git
         run: |
-          git config --global user.email "sukamat@adobe.com"
-          git config --global user.name "Sunil Kamat"
+          git config --global user.email "actions@github.com"
+          git config --global user.name "Github Actions"
 
       - name: Clone Reporting Repository
         run: |
@@ -47,10 +47,6 @@ jobs:
           ls -la
           echo "git status"
           git status
-          echo "git remote -v"
-          git remote -v
-          echo "git remote set-url for repo-b"
-          git remote set-url origin https://x-access-token:$GITHUB_TOKEN@github.com/sukamat/repo-b.git
           echo "git remote -v"
           git remote -v
           echo "git add ."
