@@ -48,12 +48,14 @@ jobs:
       - name: Commit and Push Changes
         run: |
           cd ../repo-b
+          pwd
           git status
-          git add .
-          git commit -m "Syncing repo-a to repo-b"
-          git push origin main
-        if: always()
+          git remote -v
 
 #      - name: run sync.py
 #        run: |
 #          python .github/scripts/z-sync.py
+# git add .
+# git commit -m "Syncing repo-a to repo-b"
+# git push origin main
+
