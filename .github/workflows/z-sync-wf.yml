@@ -12,38 +12,24 @@ jobs:
       - name: checkout repo content
         uses: actions/checkout@v2 # checkout the repository content
 
-      # - name: setup python
-      #   uses: actions/setup-python@v4
-      #   with:
-      #     python-version: '3.10' # install the python version needed
-
       - name: Set up Git
         run: |
           git config --global user.email "sukamat@adobe.com"
           git config --global user.name "Sunil Kamat"
-      #     git config --global url.https://$GITHUB_TOKEN@github.com/.insteadOf https://github.com/                    
-        env:
-          GITHUB_TOKEN: ${{ secrets.GH_PAT_ALL }}
-
-      # - name: Test Git Authentication
-      #   run: git ls-remote https://$GITHUB_TOKEN@github.com/sukamat/repo-b.git
 
       - name: Clone Reporting Repository
         run: |
           git clone https://$GITHUB_TOKEN@github.com/sukamat/repo-b.git ../repo-b
-        if: always()
 
       - name: Run ls -la
         run: |
           pwd
           ls -la          
-        if: always()
 
       - name: Run rsync
         run: |
           echo "Running rsync"
           rsync -av --exclude='fstab.yaml' --exclude='.github' --exclude='.git' --exclude='.idea' ./ ../repo-b/
-        if: always()
 
       - name: Commit and Push Changes
         run: |
@@ -65,11 +51,3 @@ jobs:
           git push origin main          
         env:
           GITHUB_TOKEN: ${{ secrets.GH_PAT_ALL }}
-
-#      - name: run sync.py
-#        run: |
-#          python .github/scripts/z-sync.py
-# git add .
-# git commit -m "Syncing repo-a to repo-b"
-# git push origin main
-
