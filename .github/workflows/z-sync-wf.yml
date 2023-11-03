@@ -22,8 +22,8 @@ jobs:
 
       - name: Set up Git
         run: |
-          git config --global user.email "actions@github.com"
-          git config --global user.name "Github Actions"
+          git config --global user.email "sukamat@adobe.com"
+          git config --global user.name "Sunil Kamat"
           echo "${{ steps.generate_token.outputs.token }}" > token.txt
           echo "${{ env.GITHUB_TOKEN }}" > env.txt
 
