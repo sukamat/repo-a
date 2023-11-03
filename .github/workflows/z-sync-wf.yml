@@ -24,7 +24,7 @@ jobs:
 
       - name: Clone Reporting Repository
         run: |
-          git clone https://x-access-token:$GITHUB_TOKEN@github.com/orgname/repo-b.git ../repo-b
+          git clone https://github.com/sukamat/repo-b.git ../repo-b
         env:
           GITHUB_TOKEN: ${{ steps.generate_token.outputs.token }}
 
@@ -48,7 +48,7 @@ jobs:
           echo "git remote -v"
           git remote -v
           echo "git remote set-url for repo-b"
-          git remote set-url origin https://github.com/orgname/repo-b.git
+          git remote set-url origin https://github.com/sukamat/repo-b.git
           echo "git remote -v"
           git remote -v
           echo "git add ."
