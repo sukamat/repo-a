@@ -7,6 +7,13 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+      - name: Generate a token
+        id: generate_token
+        uses: actions/create-github-app-token@v1
+        with:
+          app-id: ${{ secrets.APP_ID }}
+          private-key: ${{ secrets.FG_GITHUB_APP_PRIVATE_KEY }}
+
       - name: checkout repo content
         uses: actions/checkout@v2 # checkout the repository content
 
@@ -17,7 +24,7 @@ jobs:
 
       - name: Clone Reporting Repository
         run: |
-          git clone https://github.com/sukamat/repo-b.git ../repo-b
+          git clone https://$GITHUB_TOKEN@github.com/sukamat/repo-b.git ../repo-b
 
       - name: Run ls -la
         run: |
@@ -33,12 +40,13 @@ jobs:
         run: |
           cd ../repo-b
           pwd
+          ls -la
           echo "git status"
           git status
           echo "git remote -v"
           git remote -v
           echo "git remote set-url for repo-b"
-          git remote set-url origin https://github.com/sukamat/repo-b.git
+          git remote set-url origin https://$GITHUB_TOKEN@github.com/sukamat/repo-b.git
           echo "git remote -v"
           git remote -v
           echo "git add ."
@@ -48,6 +56,4 @@ jobs:
           echo "git push origin main"
           git push origin main
         env:
-          APP_ID: ${{ secrets.APP_ID }}
-          INSTALLATION_ID: ${{ secrets.INSTALLATION_ID }}
-          PRIVATE_KEY: ${{ secrets.FG_GITHUB_APP_PRIVATE_KEY }}
+          GITHUB_TOKEN: ${{ steps.generate_token.outputs.token }}
