@@ -36,6 +36,7 @@ jobs:
 
       - name: Run ls -la
         run: |
+          pwd
           ls -la          
         if: always()
 
@@ -49,8 +50,16 @@ jobs:
         run: |
           cd ../repo-b
           pwd
+          echo "git status"          
           git status
+          echo "git remote -v"
           git remote -v
+          echo "git add ."
+          git add .
+          echo "git commit -m 'Syncing repo-a to repo-b'"
+          git commit -m "Syncing repo-a to repo-b"
+          echo "git push origin main"
+          git push origin main
 
 #      - name: run sync.py
 #        run: |
