@@ -12,18 +12,43 @@ jobs:
       - name: checkout repo content
         uses: actions/checkout@v2 # checkout the repository content
 
-      - name: setup python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.10' # install the python version needed
+      # - name: setup python
+      #   uses: actions/setup-python@v4
+      #   with:
+      #     python-version: '3.10' # install the python version needed
 
-      - name: Set up Git
-        run: |
-          git config user.email "actions@github.com"
-          git config user.name "GitHub Actions"
-        env:
-          GITHUB_TOKEN: ${{ secrets.GH_PAT_ALL }}
+      # - name: Set up Git
+      #   run: |
+      #     git config user.email "sukamat@adobe.com"
+      #     git config user.name "Sunil Kamat"
+      #     git config --global url.https://$GITHUB_TOKEN@github.com/.insteadOf https://github.com/          
+      #     git remote set-url repob https://$GITHUB_TOKEN@github.com/sukamat/repo-b.git
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GH_PAT_ALL }}
 
-      - name: run sync.py
+      # - name: Test Git Authentication
+      #   run: git ls-remote https://$GITHUB_TOKEN@github.com/sukamat/repo-b.git
+
+      - name: Clone Reporting Repository
         run: |
-          python .github/scripts/z-sync.py
+          git clone git@github.com:sukamat/repo-b.git repo-b
+        if: always()
+
+      - name: Copy updated files from repo-a to repo-b
+        run: |
+          ls -la
+          rsync -av --exclude='fstab.yaml' --exclude='.github' --exclude='.git' --exclude='.idea' ./ repo-b/
+          if: always()
+
+      - name: Commit and Push Changes
+        run: |
+          cd repo-b
+          git status
+          git add .
+          git commit -m "Syncing repo-a to repo-b"
+          git push origin main
+        if: always()
+
+#      - name: run sync.py
+#        run: |
+#          python .github/scripts/z-sync.py
