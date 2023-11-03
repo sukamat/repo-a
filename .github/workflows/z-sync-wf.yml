@@ -61,7 +61,8 @@ jobs:
           git add .
           echo "git commit -m 'Syncing repo-a to repo-b'"
           git commit -m "Syncing repo-a to repo-b"
-          echo "git push origin main"          
+          echo "git push origin main"
+          git push origin main          
         env:
           GITHUB_TOKEN: ${{ secrets.GH_PAT_ALL }}
 
