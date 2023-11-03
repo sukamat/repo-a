@@ -19,14 +19,12 @@ jobs:
 
       - name: Set up Git
         run: |
-          git config --global user.email "name@org.com"
-          git config --global user.name "Name"
+          git config --global user.email "sukamat@adobe.com"
+          git config --global user.name "Sunil Kamat"
 
       - name: Clone Reporting Repository
         run: |
           git clone https://github.com/orgname/repo-b.git ../repo-b
-        env:
-          GITHUB_TOKEN: ${{ steps.generate_token.outputs.token }}
 
       - name: Run ls -la
         run: |
