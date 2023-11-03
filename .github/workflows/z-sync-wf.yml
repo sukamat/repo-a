@@ -23,8 +23,8 @@ jobs:
           git config user.name "Sunil Kamat"
       #     git config --global url.https://$GITHUB_TOKEN@github.com/.insteadOf https://github.com/          
       #     git remote set-url repob https://$GITHUB_TOKEN@github.com/sukamat/repo-b.git
-      #   env:
-      #     GITHUB_TOKEN: ${{ secrets.GH_PAT_ALL }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_PAT_ALL }}
 
       # - name: Test Git Authentication
       #   run: git ls-remote https://$GITHUB_TOKEN@github.com/sukamat/repo-b.git
