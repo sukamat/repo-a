@@ -37,7 +37,7 @@ jobs:
       - name: Run ls -la
         run: |
           ls -la          
-          if: always()
+        if: always()
 
       - name: Run rsync
         run: |
