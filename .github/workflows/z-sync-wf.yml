@@ -17,10 +17,10 @@ jobs:
       #   with:
       #     python-version: '3.10' # install the python version needed
 
-      # - name: Set up Git
-      #   run: |
-      #     git config user.email "sukamat@adobe.com"
-      #     git config user.name "Sunil Kamat"
+      - name: Set up Git
+        run: |
+          git config user.email "sukamat@adobe.com"
+          git config user.name "Sunil Kamat"
       #     git config --global url.https://$GITHUB_TOKEN@github.com/.insteadOf https://github.com/          
       #     git remote set-url repob https://$GITHUB_TOKEN@github.com/sukamat/repo-b.git
       #   env:
