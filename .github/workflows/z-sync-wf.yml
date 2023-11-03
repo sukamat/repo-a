@@ -17,12 +17,12 @@ jobs:
 
       - name: Clone Reporting Repository
         run: |
-          git clone https://$GITHUB_TOKEN@github.com/sukamat/repo-b.git ../repo-b
+          git clone https://github.com/sukamat/repo-b.git ../repo-b
 
       - name: Run ls -la
         run: |
           pwd
-          ls -la          
+          ls -la
 
       - name: Run rsync
         run: |
@@ -33,19 +33,21 @@ jobs:
         run: |
           cd ../repo-b
           pwd
-          echo "git status"          
+          echo "git status"
           git status
           echo "git remote -v"
           git remote -v
           echo "git remote set-url for repo-b"
-          git remote set-url origin https://$GITHUB_TOKEN@github.com/sukamat/repo-b.git
+          git remote set-url origin https://github.com/sukamat/repo-b.git
           echo "git remote -v"
-          git remote -v          
+          git remote -v
           echo "git add ."
           git add .
           echo "git commit -m 'Syncing repo-a to repo-b'"
           git commit -m "Syncing repo-a to repo-b"
           echo "git push origin main"
-          git push origin main          
+          git push origin main
         env:
-          GITHUB_TOKEN: ${{ secrets.GH_PAT }}
+          APP_ID: ${{ secrets.APP_ID }}
+          INSTALLATION_ID: ${{ secrets.INSTALLATION_ID }}
+          PRIVATE_KEY: ${{ secrets.FG_GITHUB_APP_PRIVATE_KEY }}
