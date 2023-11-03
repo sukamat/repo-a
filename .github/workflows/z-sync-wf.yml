@@ -2,8 +2,6 @@ name: run z-sync
 
 on:
   workflow_dispatch:
-    branches:
-      - main      
 
 jobs:
   build:
