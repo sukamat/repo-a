@@ -76,32 +76,8 @@ jobs:
       #     GITHUB_TOKEN: ${{ steps.generate_token.outputs.token }}
 
       - name: Push File using Octokit
-        run: |
-          const fs = require('fs');
-          const { Octokit } = require('@octokit/rest');
-
-          const octokit = new Octokit({
-            auth: {
-              id: ${{ secrets.APP_ID }},
-              privateKey: '${{ secrets.FG_GITHUB_APP_PRIVATE_KEY }}',
-            },
-          });
-
-          const owner = 'sukamat';
-          const repo = 'repo-b';
-          const filePath = 'file.txt';
-          const fileContent = 'Hello, GitHub Actions!';
-
-          octokit.repos.createOrUpdateFileContents({
-            owner,
-            repo,
-            path: filePath,
-            message: 'Add file via GitHub Actions',
-            content: Buffer.from(fileContent).toString('base64'),
-          });
+        run: node .github/scripts/pushfile.js          
         env:
           APP_ID: ${{ secrets.APP_ID }}
           PRIVATE_KEY: ${{ secrets.FG_GITHUB_APP_PRIVATE_KEY }}
-        working-directory: ${{ github.workspace }}
-        shell: bash
-          
+        working-directory: ${{ github.workspace }}          
