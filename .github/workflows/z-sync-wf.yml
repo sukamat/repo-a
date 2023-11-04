@@ -80,11 +80,10 @@ jobs:
           const fs = require('fs');
           const { Octokit } = require('@octokit/rest');
 
-          const privateKey = '${{ secrets.FG_GITHUB_APP_PRIVATE_KEY }}';
           const octokit = new Octokit({
             auth: {
               id: ${{ secrets.APP_ID }},
-              privateKey: privateKey,
+              privateKey: '${{ secrets.FG_GITHUB_APP_PRIVATE_KEY }}',
             },
           });
 
@@ -104,5 +103,5 @@ jobs:
           APP_ID: ${{ secrets.APP_ID }}
           PRIVATE_KEY: ${{ secrets.FG_GITHUB_APP_PRIVATE_KEY }}
         working-directory: ${{ github.workspace }}
-        shell: node
+        shell: bash
           
