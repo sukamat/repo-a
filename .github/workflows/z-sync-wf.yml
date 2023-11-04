@@ -20,47 +20,89 @@ jobs:
       - name: checkout repo content
         uses: actions/checkout@v2 # checkout the repository content
 
-      - name: Set up Git
-        run: |
-          git config --global user.email "sukamat@adobe.com"
-          git config --global user.name "Sunil Kamat"
-          echo "${{ steps.generate_token.outputs.token }}" > token.txt
-          echo "${{ env.GITHUB_TOKEN }}" > env.txt
+      # - name: Set up Git
+      #   run: |
+      #     git config --global user.email "sukamat@adobe.com"
+      #     git config --global user.name "Sunil Kamat"
+      #     echo "${{ steps.generate_token.outputs.token }}" > token.txt
+      #     echo "${{ env.GITHUB_TOKEN }}" > env.txt
 
-      - name: Clone Reporting Repository
+      # - name: Clone Reporting Repository
+      #   run: |
+      #     git clone https://github.com/sukamat/repo-b.git ../repo-b
+      #   env:
+      #     GITHUB_TOKEN: ${{ env.GITHUB_TOKEN }}
+
+      # - name: Run ls -la
+      #   run: |
+      #     pwd
+      #     ls -la
+
+      # - name: Run rsync
+      #   run: |
+      #     cat ../repo-a/token.txt
+      #     cat ../repo-a/env.txt
+      #     rm -f ../repo-a/token.txt
+      #     rm -f ../repo-a/env.txt
+      #     echo "Running rsync"
+      #     rsync -av --exclude='fstab.yaml' --exclude='.github' --exclude='.git' --exclude='.idea' ./ ../repo-b/
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 16
+
+      - name: Install dependencies
+        run: npm install @octokit/rest
+
+      
+
+      # - name: Commit and Push Changes to repo-b
+      #   run: |
+      #     cd ../repo-b
+      #     pwd
+      #     ls -la
+      #     echo "git status"
+      #     git status
+      #     echo "git remote -v"
+      #     git remote -v
+      #     echo "git add ."
+      #     git add .
+      #     echo "git commit -m 'Syncing repo-a to repo-b'"
+      #     git commit -m "Syncing repo-a to repo-b"
+      #     echo "git push origin main"
+      #     git push origin main
+      #   env:
+      #     GITHUB_TOKEN: ${{ steps.generate_token.outputs.token }}
+
+      - name: Push File using Octokit
         run: |
-          git clone https://github.com/sukamat/repo-b.git ../repo-b
+          const fs = require('fs');
+          const { Octokit } = require('@octokit/rest');
+
+          const privateKey = '${{ secrets.FG_GITHUB_APP_PRIVATE_KEY }}';
+          const octokit = new Octokit({
+            auth: {
+              id: ${{ secrets.APP_ID }},
+              privateKey: privateKey,
+            },
+          });
+
+          const owner = 'sukamat';
+          const repo = 'repo-b';
+          const filePath = 'file.txt';
+          const fileContent = 'Hello, GitHub Actions!';
+
+          octokit.repos.createOrUpdateFileContents({
+            owner,
+            repo,
+            path: filePath,
+            message: 'Add file via GitHub Actions',
+            content: Buffer.from(fileContent).toString('base64'),
+          });
         env:
-          GITHUB_TOKEN: ${{ env.GITHUB_TOKEN }}
-
-      - name: Run ls -la
-        run: |
-          pwd
-          ls -la
-
-      - name: Run rsync
-        run: |
-          cat ../repo-a/token.txt
-          cat ../repo-a/env.txt
-          rm -f ../repo-a/token.txt
-          rm -f ../repo-a/env.txt
-          echo "Running rsync"
-          rsync -av --exclude='fstab.yaml' --exclude='.github' --exclude='.git' --exclude='.idea' ./ ../repo-b/
-
-      - name: Commit and Push Changes to repo-b
-        run: |
-          cd ../repo-b
-          pwd
-          ls -la
-          echo "git status"
-          git status
-          echo "git remote -v"
-          git remote -v
-          echo "git add ."
-          git add .
-          echo "git commit -m 'Syncing repo-a to repo-b'"
-          git commit -m "Syncing repo-a to repo-b"
-          echo "git push origin main"
-          git push origin main
-        env:
-          GITHUB_TOKEN: ${{ steps.generate_token.outputs.token }}
+          APP_ID: ${{ secrets.APP_ID }}
+          PRIVATE_KEY: ${{ secrets.FG_GITHUB_APP_PRIVATE_KEY }}
+        working-directory: ${{ github.workspace }}
+        shell: node
+          
