@@ -14,7 +14,7 @@ jobs:
           app-id: ${{ secrets.FG_SYNC_APP_ID }}
           private-key: ${{ secrets.FG_SYNC_APP_PRIVATE_KEY }}
           owner: ${{ github.repository_owner }}
-          repositories: "repo-b,repo-c"
+          repositories: "repo-b,repo-c,repo-d"
 
       - name: checkout repo content
         uses: actions/checkout@v2
@@ -25,6 +25,7 @@ jobs:
         run: |
           git clone https://github.com/sukamat/repo-b.git ../repo-b
           git clone https://github.com/sukamat/repo-c.git ../repo-c
+          git clone https://github.com/sukamat/repo-d.git ../repo-d
 
       - name: Overwrite floodgate repo files with latest from source repo 
         run: |
@@ -33,6 +34,7 @@ jobs:
           echo "Running rsync"
           rsync -av --exclude='fstab.yaml' --exclude='.github' --exclude='.git' --exclude='.idea' ./ ../repo-b/
           rsync -av --exclude='fstab.yaml' --exclude='.github' --exclude='.git' --exclude='.idea' ./ ../repo-c/
+          rsync -av --exclude='fstab.yaml' --exclude='.github' --exclude='.git' --exclude='.idea' ./ ../repo-d/
 
       - name: Commit and Push Changes to Floodgate Repository
         run: |
@@ -70,6 +72,24 @@ jobs:
           git add .
           echo "git commit -m 'Syncing repo-a to repo-c'"
           git commit -m "Syncing repo-a to repo-c"
+          echo "git push"
+          git push origin main --force
+
+          cd ../repo-d
+          pwd
+          ls -la
+          git config user.email "$FG_SYNC_BOT_EMAIL"
+          git config user.name "$FG_SYNC_BOT_NAME"
+          echo "git status"
+          git status
+          echo "git remote set-url for repo-d"
+          git remote set-url origin https://oauth2:$GITHUB_TOKEN@github.com/sukamat/repo-d.git
+          echo "git remote -v"
+          git remote -v
+          echo "git add ."
+          git add .
+          echo "git commit -m 'Syncing repo-a to repo-d'"
+          git commit -m "Syncing repo-a to repo-d"
           echo "git push"
           git push origin main --force
         env:
