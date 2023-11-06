@@ -21,14 +21,6 @@ jobs:
         with:
           persist-credentials: false
 
-      - name: Set up Git
-        run: |
-          git config user.email "${{ env.FG_SYNC_BOT_EMAIL }}"
-          git config user.name "${{ env.FG_SYNC_BOT_NAME }}"
-        env:
-          FG_SYNC_BOT_EMAIL: ${{ secrets.FG_SYNC_BOT_EMAIL }}
-          FG_SYNC_BOT_NAME: ${{ secrets.FG_SYNC_BOT_NAME }}
-
       - name: Clone Floodgate Repository
         run: |
           git clone https://github.com/sukamat/repo-b.git ../repo-b
@@ -81,6 +73,8 @@ jobs:
           git push origin main
         env:
           GITHUB_TOKEN: ${{ steps.generate_token.outputs.token }}
+          FG_SYNC_BOT_EMAIL: ${{ secrets.FG_SYNC_BOT_EMAIL }}
+          FG_SYNC_BOT_NAME: ${{ secrets.FG_SYNC_BOT_NAME }}
 
           
         
