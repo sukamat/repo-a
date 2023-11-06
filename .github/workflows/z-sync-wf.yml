@@ -13,6 +13,8 @@ jobs:
         with:
           app-id: ${{ secrets.APP_ID }}
           private-key: ${{ secrets.FG_GITHUB_APP_PRIVATE_KEY }}
+          owner: ${{ github.repository_owner }}
+          repositories: "repo-a,repo-b"
 
       - name: checkout repo content
         uses: actions/checkout@v2 # checkout the repository content
