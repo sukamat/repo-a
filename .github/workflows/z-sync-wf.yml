@@ -13,71 +13,51 @@ jobs:
         with:
           app-id: ${{ secrets.APP_ID }}
           private-key: ${{ secrets.FG_GITHUB_APP_PRIVATE_KEY }}
-          permissions: write
-        env:
-          GITHUB_TOKEN: ${{ steps.generate_token.outputs.token }}
+          owner: ${{ github.repository_owner }}
+          repositories: "repo-a,repo-b"
 
       - name: checkout repo content
         uses: actions/checkout@v2 # checkout the repository content
 
-      # - name: Set up Git
-      #   run: |
-      #     git config --global user.email "sukamat@adobe.com"
-      #     git config --global user.name "Sunil Kamat"
-      #     echo "${{ steps.generate_token.outputs.token }}" > token.txt
-      #     echo "${{ env.GITHUB_TOKEN }}" > env.txt
+      - name: Set up Git
+        run: |
+          git config --global user.email "sukamat@adobe.com"
+          git config --global user.name "Sunil Kamat"
 
-      # - name: Clone Reporting Repository
-      #   run: |
-      #     git clone https://github.com/sukamat/repo-b.git ../repo-b
-      #   env:
-      #     GITHUB_TOKEN: ${{ env.GITHUB_TOKEN }}
+      - name: Clone Reporting Repository
+        run: |
+          git clone https://$GITHUB_TOKEN@github.com/sukamat/repo-b.git ../repo-b
 
-      # - name: Run ls -la
-      #   run: |
-      #     pwd
-      #     ls -la
+      - name: Run ls -la
+        run: |
+          pwd
+          ls -la
 
-      # - name: Run rsync
-      #   run: |
-      #     cat ../repo-a/token.txt
-      #     cat ../repo-a/env.txt
-      #     rm -f ../repo-a/token.txt
-      #     rm -f ../repo-a/env.txt
-      #     echo "Running rsync"
-      #     rsync -av --exclude='fstab.yaml' --exclude='.github' --exclude='.git' --exclude='.idea' ./ ../repo-b/
+      - name: Run rsync
+        run: |
+          echo "Running rsync"
+          rsync -av --exclude='fstab.yaml' --exclude='.github' --exclude='.git' --exclude='.idea' ./ ../repo-b/
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: 16
-
-      - name: Install dependencies
-        run: npm install @octokit/rest
-
-      
-
-      # - name: Commit and Push Changes to repo-b
-      #   run: |
-      #     cd ../repo-b
-      #     pwd
-      #     ls -la
-      #     echo "git status"
-      #     git status
-      #     echo "git remote -v"
-      #     git remote -v
-      #     echo "git add ."
-      #     git add .
-      #     echo "git commit -m 'Syncing repo-a to repo-b'"
-      #     git commit -m "Syncing repo-a to repo-b"
-      #     echo "git push origin main"
-      #     git push origin main
-      #   env:
-      #     GITHUB_TOKEN: ${{ steps.generate_token.outputs.token }}
-
-      - name: Push File using Octokit
-        run: node .github/scripts/pushfile.js          
+      - name: Commit and Push Changes to repo-b
+        run: |
+          cd ../repo-b
+          pwd
+          ls -la
+          echo "git status"
+          git status
+          echo "git remote -v"
+          git remote -v
+          echo "git remote set-url for repo-b"
+          git remote set-url origin https://$GITHUB_TOKEN@github.com/sukamat/repo-b.git
+          echo "git remote -v"
+          git remote -v
+          echo "git add ."
+          git add .
+          echo "git commit -m 'Syncing repo-a to repo-b'"
+          git commit -m "Syncing repo-a to repo-b"
+          echo "git push origin main"
+          git push origin main
         env:
-          APP_ID: ${{ secrets.APP_ID }}
-          PRIVATE_KEY: ${{ secrets.FG_GITHUB_APP_PRIVATE_KEY }}
-        working-directory: ${{ github.workspace }}          
+          GITHUB_TOKEN: ${{ steps.generate_token.outputs.token }}
+          
+        
