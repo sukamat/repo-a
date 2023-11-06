@@ -28,7 +28,7 @@ jobs:
 
       - name: Clone Reporting Repository
         run: |
-          git clone https://$GITHUB_TOKEN@github.com/sukamat/repo-b.git ../repo-b
+          git clone https://github.com/sukamat/repo-b.git ../repo-b
 
       - name: Run ls -la
         run: |
