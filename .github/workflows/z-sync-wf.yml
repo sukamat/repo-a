@@ -39,8 +39,9 @@ jobs:
           cd ../repo-b
           pwd
           ls -la
-          git config user.email "${{ env.FG_SYNC_BOT_EMAIL }}"
-          git config user.name "${{ env.FG_SYNC_BOT_NAME }}"
+          git config user.email "$FG_SYNC_BOT_EMAIL"
+          git config user.name "$FG_SYNC_BOT_NAME"
+          git config --list
           echo "git status"
           git status
           echo "git remote set-url for repo-b"
