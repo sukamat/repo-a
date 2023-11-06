@@ -21,11 +21,6 @@ jobs:
         with:
           persist-credentials: false
 
-      - name: Set up Git
-        run: |
-          git config user.email "actions@github.com"
-          git config user.name "Github Actions"
-
       - name: Clone Floodgate Repository
         run: |
           git clone https://github.com/sukamat/repo-b.git ../repo-b
@@ -39,6 +34,8 @@ jobs:
 
       - name: Commit and Push Changes to Floodgate Repository
         run: |
+          git config user.email "actions@github.com"
+          git config user.name "Github Actions"
           cd ../repo-b
           pwd
           ls -la
