@@ -53,7 +53,7 @@ jobs:
           echo "git commit -m 'Syncing repo-a to repo-b'"
           git commit -m "Syncing repo-a to repo-b"
           echo "git push"
-          git push origin main
+          git push origin main --force
 
           cd ../repo-c
           pwd
@@ -71,7 +71,7 @@ jobs:
           echo "git commit -m 'Syncing repo-a to repo-c'"
           git commit -m "Syncing repo-a to repo-c"
           echo "git push"
-          git push origin main
+          git push origin main --force
         env:
           GITHUB_TOKEN: ${{ steps.generate_token.outputs.token }}
           FG_SYNC_BOT_EMAIL: ${{ secrets.FG_SYNC_BOT_EMAIL }}
