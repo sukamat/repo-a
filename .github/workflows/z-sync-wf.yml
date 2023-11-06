@@ -39,8 +39,8 @@ jobs:
           cd ../repo-b
           pwd
           ls -la
-          git config user.email "$FG_SYNC_BOT_USER_EMAIL"
-          git config user.name "$FG_SYNC_BOT_USER_NAME"
+          git config user.email "$FG_SYNC_BOT_EMAIL"
+          git config user.name "$FG_SYNC_BOT_NAME"
           git config --list
           echo "git status"
           git status
@@ -58,8 +58,8 @@ jobs:
           cd ../repo-c
           pwd
           ls -la
-          git config user.email "${{ env.FG_SYNC_BOT_USER_EMAIL }}"
-          git config user.name "${{ env.FG_SYNC_BOT_USER_NAME }}"
+          git config user.email "$FG_SYNC_BOT_EMAIL"
+          git config user.name "$FG_SYNC_BOT_NAME"
           echo "git status"
           git status
           echo "git remote set-url for repo-c"
@@ -74,8 +74,8 @@ jobs:
           git push origin main
         env:
           GITHUB_TOKEN: ${{ steps.generate_token.outputs.token }}
-          FG_SYNC_BOT_USER_EMAIL: ${{ secrets.FG_SYNC_BOT_USER_EMAIL }}
-          FG_SYNC_BOT_USER_NAME: ${{ secrets.FG_SYNC_BOT_USER_NAME }}
+          FG_SYNC_BOT_EMAIL: ${{ secrets.FG_SYNC_BOT_EMAIL }}
+          FG_SYNC_BOT_NAME: ${{ secrets.FG_SYNC_BOT_NAME }}
 
           
         
