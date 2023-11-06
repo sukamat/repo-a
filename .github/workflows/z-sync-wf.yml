@@ -23,8 +23,8 @@ jobs:
 
       - name: Set up Git
         run: |
-          git config --global user.email "149828687+github-actions[bot]@users.noreply.github.com"
-          git config --global user.name "floodgate-repo-sync[bot]"
+          git config user.email "${{ secrets.FG_SYNC_BOT_EMAIL }}"
+          git config user.name "${{ secrets.FG_SYNC_BOT_NAME }}"
 
       - name: Clone Floodgate Repository
         run: |
@@ -44,6 +44,8 @@ jobs:
           cd ../repo-b
           pwd
           ls -la
+          git config user.email "${{ secrets.FG_SYNC_BOT_EMAIL }}"
+          git config user.name "${{ secrets.FG_SYNC_BOT_NAME }}"
           echo "git status"
           git status
           echo "git remote set-url for repo-b"
@@ -60,6 +62,8 @@ jobs:
           cd ../repo-c
           pwd
           ls -la
+          git config user.email "${{ secrets.FG_SYNC_BOT_EMAIL }}"
+          git config user.name "${{ secrets.FG_SYNC_BOT_NAME }}"
           echo "git status"
           git status
           echo "git remote set-url for repo-c"
