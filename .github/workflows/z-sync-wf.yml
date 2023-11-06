@@ -50,20 +50,24 @@ jobs:
           echo "git remote -v"
           git remote -v
           echo "git remote set-url for repo-b"
-          git remote set-url origin https://github.com/sukamat/repo-b.git
+          git remote set-url origin https://oauth2:$GITHUB_TOKEN@github.com/sukamat/repo-b.git
           echo "git remote -v"
           git remote -v
           echo "git add ."
           git add .
           echo "git commit -m 'Syncing repo-a to repo-b'"
           git commit -m "Syncing repo-a to repo-b"
+          echo "git push"
+          git push origin main
+        env:
+          GITHUB_TOKEN: ${{ steps.generate_token.outputs.token }}
 
-      - name: Push changes
-        uses: ad-m/github-push-action@master
-        with:
-          directory: ../repo-b
-          github_token: ${{ steps.generate_token.outputs.token }}
-          repository: sukamat/repo-b
-          branch: ${{ github.ref }}
+      # - name: Push changes
+      #   uses: ad-m/github-push-action@master
+      #   with:
+      #     directory: ../repo-b
+      #     github_token: ${{ steps.generate_token.outputs.token }}
+      #     repository: sukamat/repo-b
+      #     branch: ${{ github.ref }}
           
         
