@@ -57,9 +57,12 @@ jobs:
           git add .
           echo "git commit -m 'Syncing repo-a to repo-b'"
           git commit -m "Syncing repo-a to repo-b"
+          
       - name: Push changes
-        run: |
-          echo "pwd"
-          pwd
+        uses: ad-m/github-push-action@master
+        with:
+          directory: ../repo-b
+          github_token: ${{ steps.generate_token.outputs.token }}
+          branch: ${{ github.ref }}
           
         
