@@ -13,8 +13,6 @@ jobs:
         with:
           app-id: ${{ secrets.APP_ID }}
           private-key: ${{ secrets.FG_GITHUB_APP_PRIVATE_KEY }}
-          owner: ${{ github.repository_owner }}
-          repositories: "repo-a,repo-b"
 
       - name: checkout repo content
         uses: actions/checkout@v2 # checkout the repository content
@@ -62,12 +60,5 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ steps.generate_token.outputs.token }}
 
-      # - name: Push changes
-      #   uses: ad-m/github-push-action@master
-      #   with:
-      #     directory: ../repo-b
-      #     github_token: ${{ steps.generate_token.outputs.token }}
-      #     repository: sukamat/repo-b
-      #     branch: ${{ github.ref }}
           
         
