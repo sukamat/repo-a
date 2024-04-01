@@ -36,6 +36,10 @@ jobs:
           git remote -v
           git status
           git branch
+          cd ../repo-b
+          git checkout stage
+          git branch
+          cd ../repo-a
 
       # - name: Overwrite graybox repo files with latest from source repo
       #   run: |
