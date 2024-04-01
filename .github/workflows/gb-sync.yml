@@ -33,23 +33,29 @@ jobs:
       - name: Clone Graybox Repository
         run: |
           git clone https://github.com/sukamat/repo-b.git ../repo-b
+          git remote -v
           git status
+          git branch
 
-      - name: Overwrite graybox repo files with latest from source repo
-        run: |
-          rsync -av --exclude='fstab.yaml' --exclude='.github' --exclude='.git' --exclude='.idea' --exclude='.husky' --exclude='.vscode' --exclude='tools/sidekick/config.json' ./ ../repo-b/
+      # - name: Overwrite graybox repo files with latest from source repo
+      #   run: |
+      #     rsync -av --exclude='fstab.yaml' --exclude='.github' --exclude='.git' --exclude='.idea' --exclude='.husky' --exclude='.vscode' --exclude='tools/sidekick/config.json' ./ ../repo-b/
 
       - name: Commit and Push Changes to Graybox Repository
         run: |
           cd ../repo-b
-          git config user.email "$FG_SYNC_BOT_EMAIL"
-          git config user.name "graybox-repo-sync[bot]"
-          git status          
-          git remote set-url origin https://oauth2:$GITHUB_TOKEN@github.com/sukamat/repo-b.git
           git remote -v
-          git add .
-          git commit -m "Syncing repo-a to repo-b"
-          git push origin $GB_SYNC_BRANCH --force
+          git status
+          git branch
+          ls -la
+          # git config user.email "$FG_SYNC_BOT_EMAIL"
+          # git config user.name "graybox-repo-sync[bot]"
+          # git status          
+          # git remote set-url origin https://oauth2:$GITHUB_TOKEN@github.com/sukamat/repo-b.git
+          # git remote -v
+          # git add .
+          # git commit -m "Syncing repo-a to repo-b"
+          # git push origin $GB_SYNC_BRANCH --force
         env:
           GITHUB_TOKEN: ${{ steps.generate_token.outputs.token }}
           FG_SYNC_BOT_EMAIL: ${{ secrets.FG_SYNC_BOT_EMAIL }}
