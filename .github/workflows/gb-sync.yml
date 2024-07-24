@@ -1,6 +1,10 @@
 name: Graybox Repo Sync POC
 
 on:
+  push:
+    branches:
+      - stage
+      - main
   workflow_dispatch:
     inputs:
       syncBranch:
@@ -25,29 +29,44 @@ jobs:
         uses: actions/checkout@v2
         with:
           persist-credentials: false
-          ref: ${{ inputs.syncBranch }}
+          ref: ${{ inputs.syncBranch || github.ref_name }}
 
       - name: Clone Graybox Repository
         run: |
           git clone https://github.com/sukamat/repo-b.git ../repo-b
-          git status
+          cd ../repo-b
+          git checkout $GB_SYNC_BRANCH
+          echo "repo-b branch"
+          git branch
+          cd ../repo-a
+          echo "repo-a branch"
+          git branch
+        env:
+          GB_SYNC_BRANCH: ${{ inputs.syncBranch || github.ref_name }}
 
       - name: Overwrite graybox repo files with latest from source repo
         run: |
           rsync -av --exclude='fstab.yaml' --exclude='.github' --exclude='.git' --exclude='.idea' --exclude='.husky' --exclude='.vscode' --exclude='tools/sidekick/config.json' ./ ../repo-b/
 
-      - name: Commit and Push Changes to Graybox Repository
+      - name: Commit and Push Changes to repo-b Repository
         run: |
           cd ../repo-b
+          echo "repo-b branch"
+          git branch
           git config user.email "$FG_SYNC_BOT_EMAIL"
           git config user.name "graybox-repo-sync[bot]"
-          git status          
-          git remote set-url origin https://oauth2:$GITHUB_TOKEN@github.com/sukamat/repo-b.git
-          git remote -v
-          git add .
-          git commit -m "Syncing repo-a to repo-b"
-          git push origin $GB_SYNC_BRANCH --force
+          git status
+          if [[ -n $(git status -s) ]]; then
+            git remote set-url origin https://oauth2:$GITHUB_TOKEN@github.com/sukamat/repo-b.git
+            git remote -v
+            git add .
+            git commit -m "Syncing repo-a to repo-b"
+            git push origin $GB_SYNC_BRANCH --force
+            echo ":heavy_check_mark: Syncing branch $GB_SYNC_BRANCH on repo-a to repo-b completed successfully." >> $GITHUB_STEP_SUMMARY
+          else
+            echo ":heavy_minus_sign: No changes detected on branch $GB_SYNC_BRANCH, nothing to sync." >> $GITHUB_STEP_SUMMARY
+          fi
         env:
           GITHUB_TOKEN: ${{ steps.generate_token.outputs.token }}
           FG_SYNC_BOT_EMAIL: ${{ secrets.FG_SYNC_BOT_EMAIL }}
-          GB_SYNC_BRANCH: ${{ inputs.syncBranch }}
+          GB_SYNC_BRANCH: ${{ inputs.syncBranch || github.ref_name }}
