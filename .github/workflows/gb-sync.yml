@@ -59,12 +59,17 @@ jobs:
           git branch
           git config user.email "$FG_SYNC_BOT_EMAIL"
           git config user.name "graybox-repo-sync[bot]"
-          git status          
-          git remote set-url origin https://oauth2:$GITHUB_TOKEN@github.com/sukamat/repo-b.git
-          git remote -v
-          git add .
-          git commit -m "Syncing repo-a to repo-b"
-          git push origin $GB_SYNC_BRANCH --force
+          git status
+          if [[ -n $(git status -s) ]]; then
+            git remote set-url origin https://oauth2:$GITHUB_TOKEN@github.com/sukamat/repo-b.git
+            git remote -v
+            git add .
+            git commit -m "Syncing repo-a to repo-b"
+            git push origin $GB_SYNC_BRANCH --force
+            echo ":heavy_check_mark: Syncing branch $GB_SYNC_BRANCH on repo-a to repo-b completed successfully." >> $GITHUB_STEP_SUMMARY
+          else
+            echo ":heavy_minus_sign: No changes detected on branch $GB_SYNC_BRANCH, nothing to sync." >> $GITHUB_STEP_SUMMARY
+          fi
         env:
           GITHUB_TOKEN: ${{ steps.generate_token.outputs.token }}
           FG_SYNC_BOT_EMAIL: ${{ secrets.FG_SYNC_BOT_EMAIL }}
